@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>バーンズリーのシダ（Barnsley Fern）</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>バーンズリーのシダ</h1>
+        <p>確率的反復関数系（IFS）によるフラクタル図形の生成</p>
+    </header>
+
+    <main>
+        <div class="canvas-container">
+            <canvas id="fernCanvas" width="900" height="600"></canvas>
+            <div class="info-panel">
+                <span id="pointCounter">点数: 0</span>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <button id="startBtn" type="button">開始</button>
+            <button id="stopBtn" type="button" disabled>停止</button>
+            <button id="resetBtn" type="button">リセット</button>
+
+            <div class="speed-control">
+                <label for="speedSlider">描画速度:</label>
+                <input type="range" id="speedSlider" min="10" max="1000" value="100" step="10">
+                <span id="speedValue">100</span> 点/フレーム
+            </div>
+
+            <div class="theme-control">
+                <label for="themeSelect">カラーテーマ:</label>
+                <select id="themeSelect">
+                    <option value="classic">クラシック緑</option>
+                    <option value="autumn">秋の紅葉</option>
+                    <option value="ocean">オーシャンブルー</option>
+                    <option value="monochrome">モノクローム</option>
+                    <option value="rainbow">レインボー</option>
+                </select>
+            </div>
+        </div>
+    </main>
+
+    <div id="welcomeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🌿 バーンズリーのシダへようこそ</h2>
+                <button id="closeModal" class="close-btn" aria-label="モーダルを閉じる">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>このアプリはコンピューターが<strong>数学の魔法</strong>を使って、美しいシダの絵を描きます。</p>
+
+                <h3>🌱 どうやって作られるの？</h3>
+                <p>コンピューターは「点」という小さな丸を、決められたルールに従って1つずつ描いていきます。</p>
+
+                <h3>✨ 4つの魔法のルール</h3>
+                <ul>
+                    <li><strong>ルール1（茎）：</strong> まっすぐ上に細く伸びる（1%の確率）</li>
+                    <li><strong>ルール2（主葉）：</strong> 大きな葉っぱの形を作る（85%の確率）</li>
+                    <li><strong>ルール3（左葉）：</strong> 左向きの小さな葉っぱ（7%の確率）</li>
+                    <li><strong>ルール4（右葉）：</strong> 右向きの小さな葉っぱ（7%の確率）</li>
+                </ul>
+                <p>コンピューターは毎回サイコロを振って、どのルールを使うかを決めて、何万回も繰り返します。これが<strong>フラクタル</strong>という自然界にもある不思議な図形です。</p>
+
+                <h3>📖 操作方法</h3>
+                <ul>
+                    <li><strong>開始/停止:</strong> ボタンをクリック、またはスペースキーを押す</li>
+                    <li><strong>リセット:</strong> リセットボタンをクリック、またはRキーを押す</li>
+                    <li><strong>速度調整:</strong> スライダーで1秒間に描く点の数を変える</li>
+                    <li><strong>カラーテーマ:</strong> 5種類の色から選択可能</li>
+                </ul>
+
+                <h3>🎯 楽しみ方</h3>
+                <ul>
+                    <li>まずは低速設定で、点がどうやってシダになるか観察してみよう</li>
+                    <li>高速設定にすると、あっという間に美しい絵ができる</li>
+                    <li>違う色に変えて、カラフルなシダを作ってみよう</li>
+                    <li>100万個の点で作ると、とても細かくてきれいになる</li>
+                </ul>
+
+                <div class="modal-footer">
+                    <button id="startTutorial" class="btn-primary">始める</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
