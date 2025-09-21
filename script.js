@@ -43,18 +43,22 @@ class BarnsleyFern {
             // モバイルでは画面サイズに合わせる
             this.canvas.width = maxWidth;
             this.canvas.height = Math.max(400, maxHeight);
+            // モバイル用のスケール調整（より小さく）
+            this.scale = Math.min(30, this.canvas.width / 25);
+            // 中心位置も調整
+            this.centerX = this.canvas.width / 2;
+            this.centerY = this.canvas.height - 40;
         } else {
             // デスクトップでは固定サイズ
             this.canvas.width = 900;
             this.canvas.height = 600;
+            this.scale = 50;
+            this.centerX = this.canvas.width / 2;
+            this.centerY = this.canvas.height - 60;
         }
 
         this.ctx.fillStyle = '#000000';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-        this.centerX = this.canvas.width / 2;
-        this.centerY = this.canvas.height - 60;
-        this.scale = isMobile ? 40 : 50;
     }
 
     handleResize() {
