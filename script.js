@@ -31,15 +31,53 @@ class BarnsleyFern {
     }
 
     initCanvas() {
-        this.canvas.width = 900;
-        this.canvas.height = 600;
+        // モバイル端末に対応したキャンバスサイズの設定
+        const container = this.canvas.parentElement;
+        const maxWidth = Math.min(900, container.clientWidth - 20);
+        const maxHeight = Math.min(600, window.innerHeight * 0.6);
+
+        // モバイル判定
+        const isMobile = window.innerWidth <= 768;
+
+        if (isMobile) {
+            // モバイルでは画面サイズに合わせる
+            this.canvas.width = maxWidth;
+            this.canvas.height = Math.max(400, maxHeight);
+        } else {
+            // デスクトップでは固定サイズ
+            this.canvas.width = 900;
+            this.canvas.height = 600;
+        }
 
         this.ctx.fillStyle = '#000000';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.centerX = this.canvas.width / 2;
         this.centerY = this.canvas.height - 60;
-        this.scale = 50;
+        this.scale = isMobile ? 40 : 50;
+    }
+
+    handleResize() {
+        // リサイズ処理（状態を保持）
+        const wasRunning = this.isRunning;
+        const currentPointCount = this.pointCount;
+        const currentX = this.x;
+        const currentY = this.y;
+
+        if (wasRunning) {
+            this.stop();
+        }
+
+        this.initCanvas();
+
+        // 状態を復元
+        this.pointCount = currentPointCount;
+        this.x = currentX;
+        this.y = currentY;
+
+        if (wasRunning) {
+            this.start();
+        }
     }
 
     bindEvents() {
@@ -57,9 +95,28 @@ class BarnsleyFern {
             this.currentTheme = e.target.value;
         });
 
+        // モバイル端末でのリサイズイベント制御
+        let resizeTimeout;
+        let lastWidth = window.innerWidth;
+        let lastHeight = window.innerHeight;
+
         window.addEventListener('resize', () => {
-            this.initCanvas();
-            this.reset();
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                const currentWidth = window.innerWidth;
+                const currentHeight = window.innerHeight;
+
+                // 幅の変化が大きい場合、または高さの変化が100px以上の場合のみリセット
+                // (モバイルのアドレスバー表示/非表示による小さな変化は無視)
+                const widthChanged = Math.abs(currentWidth - lastWidth) > 50;
+                const heightChanged = Math.abs(currentHeight - lastHeight) > 100;
+
+                if (widthChanged || heightChanged) {
+                    lastWidth = currentWidth;
+                    lastHeight = currentHeight;
+                    this.handleResize();
+                }
+            }, 300); // デバウンス時間を300msに設定
         });
     }
 
