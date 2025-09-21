@@ -43,11 +43,11 @@ class BarnsleyFern {
             // モバイルでは画面サイズに合わせる
             this.canvas.width = maxWidth;
             this.canvas.height = Math.max(400, maxHeight);
-            // モバイル用のスケール調整（より小さく）
-            this.scale = Math.min(30, this.canvas.width / 25);
+            // モバイル用のスケール調整（元の40の80% = 32）
+            this.scale = 32;
             // 中心位置も調整
             this.centerX = this.canvas.width / 2;
-            this.centerY = this.canvas.height - 40;
+            this.centerY = this.canvas.height - 50;
         } else {
             // デスクトップでは固定サイズ
             this.canvas.width = 900;
